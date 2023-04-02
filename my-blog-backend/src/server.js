@@ -1,4 +1,5 @@
 import express from "express";
+import cors from "cors";
 import { MongoClient } from "mongodb";
 
 
@@ -30,13 +31,13 @@ app.get("/api/articles/:name",async(req,resp)=>{
 })
 
 
-app.get("/api/articles/:name/upvote",async (req,resp)=>{
+app.put("/api/articles/:name/upvote",async (req,resp)=>{
     const {name}=req.params;
     const client=new MongoClient('mongodb://127.0.0.1:27017');
     await client.connect();
     const db =  client.db('react-my-blog-2-db');
     await db.collection('articles').updateOne({name},{
-        $inc:{upvotes:1}
+        $inc:{vote:1}
     });
     
     const article = await db.collection('articles').findOne({name});
@@ -91,16 +92,16 @@ app.get("/hellow/:name",(req,resp)=>{
 });
 
 
-app.put("/api/article/:name/upVote",(req,resp)=>{
-    const {name}=req.params;
-    const article=articleInfo.find(a => a.name === name);
-    if(article){
-        article.vote++;    
-        resp.send(`Article named :: ${name} is upvoted by ${article.vote}`)
-    }else{
-        resp.send("ARTICLE DOES'NT EXISTS");
-    }
-});
+// app.put("/api/article/:name/upVote",(req,resp)=>{
+//     const {name}=req.params;
+//     const article=articleInfo.find(a => a.name === name);
+//     if(article){
+//         article.vote++;    
+//         resp.send(`Article named :: ${name} is upvoted by ${article.vote}`)
+//     }else{
+//         resp.send("ARTICLE DOES'NT EXISTS");
+//     }
+// });
 
 
 

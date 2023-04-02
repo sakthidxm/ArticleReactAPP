@@ -1,8 +1,25 @@
-[
-                    {"name":"learn-react","vote":0,"comments":[
-						{"postedBy":"Ankush","text":"comment-1"},]},
-                    {"name":"learn-node", "vote":0,"comments":[
-						{"postedBy":"Ankush","text":"comment-1"},]},
-                    {"name":"mongodb",	  "vote":0,"comments":[
-						{"postedBy":"Ankush","text":"comment-1"},]}
-                ]
+[{
+    "name": "learn-react",
+    "vote": 10,
+    "comments": [{
+        "postedBy": "Ankush",
+        "text": "comment-1"
+    }]
+},
+{
+    "name": "learn-node",
+    "vote": 12,
+    "comments": [{
+        "postedBy": "Ankush",
+        "text": "comment-1"
+    }]
+},
+{
+    "name": "mongodb",
+    "vote": 15,
+    "comments": [{
+        "postedBy": "Ankush",
+        "text": "comment-1"
+    }]
+}
+]

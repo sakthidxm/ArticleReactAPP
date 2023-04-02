@@ -1,19 +1,35 @@
-import { useState,useEffect } from 'react';
-
 import { useParams } from 'react-router-dom';
 import articles from './article-content';
 import PageNotFound from './PageNotFound';
+import  {useEffect, useState} from 'react';
+import axios from 'axios';
+import CommentList from '../components/ArticleComments';
+
 
 const Article = () => {
 
-    const [articleInfo,setArticleInfo]=useState({upvotes:0,comments:[]});
-    useEffect(()=>{
-        setArticleInfo({upvotes:3,comments:[]});
-    });
-
-
+    const [articleInfo,setArticleInfo]=useState({upVotes:0,comments:[]});
     const { articleId } = useParams();
+  
+    useEffect( ()=>{
+        const loadArticleInfo = async () =>{
+            const response = await axios.get(`/api/articles/${articleId}`);
+            const newArticleInfo = response.data;
+            setArticleInfo(newArticleInfo);
+        }
+        loadArticleInfo();
+        // setArticleInfo({upVotes:Math.ceil(Math.random()*10),comments:[]});
+    },[]);
+
     const article = articles.find(article => article.name === articleId);
+
+    const addUpVote = async() => {
+        const response = await axios.put(`/api/articles/${articleId}/upvote`);
+        const updatedArticleData=response.data;
+        setArticleInfo(updatedArticleData);
+    }
+
+
 
     if(!article){
        return ( <PageNotFound /> );
@@ -22,10 +38,17 @@ const Article = () => {
     return (
         <>
         <h1>{article.title}</h1>
-        <p>This article has {articleInfo.upvotes} upvote(s)</p>
+        <div className="upvotes-section">
+            <button onClick={addUpVote}>UPVOTE</button>
+            <p>This artilce has  {articleInfo.vote} upVote(s) </p>
+        </div>
+        
         {article.content.map((paragraph, i) => (
             <p key={i}>{paragraph}</p>
         ))}
+
+        <CommentList comments={articleInfo.comments} />
+
         </>
     );
 }
