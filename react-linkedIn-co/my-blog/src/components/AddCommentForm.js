@@ -1,13 +1,20 @@
 import axios from "axios";
 import { useState } from "react";
+import {axios} from "axios";
 
-const AddCommentForm = (articlesName)=>{
+const AddCommentForm = ({articlesName,onArticleUpdated})=>{
     const [name,setName]=useState("");
     const [commentText,setCommentText]=useState("");
 
     const addComment=async() =>{
-        const resp=await axios.post(`/api/articles/{articlesName}/comments`);
-        
+        const resp=await axios.post(`/api/articles/${articlesName}/comments`,{
+            postedBy:name,
+            text:commentText
+        });   
+        const updateArticle = resp.data;
+        onArticleUpdated(updateArticle);
+        setName("");
+        setCommentText("");
     }
     
     return (
@@ -15,15 +22,19 @@ const AddCommentForm = (articlesName)=>{
             <h3>Add a Comment</h3>
             <label>
                 Name :
-                <input value={name} onChange={e => setName(e.target.value)} type="text" />
+                <input value={name} 
+                          onChange={e => setName(e.target.value)} 
+                          type="text" />
             </label>
 
             <label>
                 Comment:
-                <textarea value={commentText} onChange={e=>setCommentText(e.target.value)} rows="4" cols="50" />
+                <textarea value={commentText} 
+                               onChange={e=>setCommentText(e.target.value)} 
+                               rows="4" cols="50" />
             </label>
 
-            <button>Add Comment</button>
+            <button onClick={addComment}>Add Comment</button>
 
 
         </div>
