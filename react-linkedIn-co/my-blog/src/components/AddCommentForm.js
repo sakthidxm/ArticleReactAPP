@@ -1,6 +1,5 @@
 import axios from "axios";
 import { useState } from "react";
-import {axios} from "axios";
 
 const AddCommentForm = ({articlesName,onArticleUpdated})=>{
     const [name,setName]=useState("");
@@ -40,3 +39,6 @@ const AddCommentForm = ({articlesName,onArticleUpdated})=>{
         </div>
     );
 }
+
+
+export default AddCommentForm;
